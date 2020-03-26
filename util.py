@@ -55,7 +55,7 @@ def to_device(tensor, gpu=False):
     return tensor.cuda() if gpu else tensor.cpu()
 
 
-def calc_metrics(predictions, targets, average='micro'):
+def clf_metrics(predictions, targets, average='macro'):
     f1 = f1_score(targets, predictions, average=average)
     precision = precision_score(targets, predictions, average=average)
     recall = recall_score(targets, predictions, average=average)

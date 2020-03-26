@@ -7,7 +7,7 @@ class COVIDxNumpy(Dataset):
     def __init__(self, imgs_npy, labels_npy, transforms):
         self.input = np.load(imgs_npy)
         self.labels = np.load(labels_npy)
-        self.transforms
+        self.transforms = transforms
 
     def __len__(self):
         return len(self.labels)
