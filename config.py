@@ -6,6 +6,7 @@ n_threads = 20
 random_seed = 1337
 
 # Model
+# Model weights path
 weights = None
 
 # Optimizer

@@ -9,7 +9,7 @@ class COVIDNext50(nn.Module):
     def __init__(self, n_classes):
         super(COVIDNext50, self).__init__()
         self.n_classes = n_classes
-        self.trainable = False
+        trainable = False
 
         # Layers
         backbone = models.resnext50_32x4d(pretrained=True)
@@ -18,19 +18,19 @@ class COVIDNext50(nn.Module):
                                     backbone.bn1,
                                     backbone.relu,
                                     backbone.maxpool),
-                                trainable=self.trainable,
+                                trainable=trainable,
                                 name="conv1")
         self.block1 = Trainable(backbone.layer1,
-                                trainable=self.trainable,
+                                trainable=trainable,
                                 name="block1")
         self.block2 = Trainable(backbone.layer2,
-                                trainable=self.trainable,
+                                trainable=trainable,
                                 name="block2")
         self.block3 = Trainable(backbone.layer3,
-                                trainable=self.trainable,
+                                trainable=trainable,
                                 name="block3")
         self.block4 = Trainable(backbone.layer4,
-                                trainable=self.trainable,
+                                trainable=trainable,
                                 name="block4")
         self.backbone_end = Trainable(nn.Sequential(
                                         ConvBn2d(2048, 1024, 3),
