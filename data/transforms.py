@@ -1,22 +1,26 @@
 from torchvision import transforms
-import torch
 
 
-class ToTensor(object):
-    """
-    Convert to Pytorch float32 tensor and transpose from HWC to CHW format.
-    """
-    def __call__(self, image):
-        tensor = torch.from_numpy(image).to(torch.float32)
-        tensor = torch.transpose(tensor, 0, 1)
-        return torch.transpose(tensor, 0, 2)
-
-
-def train_transforms():
-    trans_list = [ToTensor()]
+def train_transforms(width, height):
+    trans_list = [
+        transforms.Resize((height, width)),
+        transforms.RandomVerticalFlip(p=0.5),
+        transforms.RandomHorizontalFlip(p=0.5),
+        transforms.RandomApply([
+            transforms.RandomAffine(degrees=20,
+                                    translate=(0.15, 0.15),
+                                    scale=(0.8, 1.2),
+                                    shear=5)], p=0.5),
+        transforms.RandomApply([
+            transforms.ColorJitter(brightness=0.3, contrast=0.3)], p=0.5),
+        transforms.ToTensor()
+    ]
     return transforms.Compose(trans_list)
 
 
-def val_transforms():
-    trans_list = [ToTensor()]
+def val_transforms(width, height):
+    trans_list = [
+        transforms.Resize((height, width)),
+        transforms.ToTensor()
+    ]
     return transforms.Compose(trans_list)

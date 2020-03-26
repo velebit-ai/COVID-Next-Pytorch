@@ -62,3 +62,16 @@ def clf_metrics(predictions, targets, average='macro'):
     acc = accuracy_score(targets, predictions)
 
     return acc, f1, precision, recall
+
+
+def get_learning_rate(optimizer):
+    """
+    Retrieves the current learning rate. If the optimizer doesn't have
+    trainable variables, it will raise an error.
+    :param optimizer: Optimizer object
+    :return: float, Current learning rate
+    """
+    if len(optimizer.param_groups) > 0:
+        return optimizer.param_groups[0]['lr']
+    else:
+        raise ValueError('No trainable parameters.')
