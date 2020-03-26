@@ -1,15 +1,15 @@
 # General
-name = "ResNext50"
+name = "COVIDNext50"
 gpu = True
 batch_size = 64
 n_threads = 20
 random_seed = 1337
 
 # Model
-weights = "experiments/ckpts/ResNext50_F1_83.24_step_16800.pth"
+weights = None
 
 # Optimizer
-lr = 5e-5
+lr = 1e-3
 weight_decay = 5e-4
 lr_reduce_factor = 0.7
 lr_reduce_patience = 5

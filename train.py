@@ -120,7 +120,7 @@ def main():
         state = None
 
     state_dict = state["state_dict"] if state else None
-    model = architecture.ResNext50(n_classes=config.n_classes)
+    model = architecture.COVIDNext50(n_classes=config.n_classes)
     if state_dict:
         model = util.load_model_weights(model=model, state_dict=state_dict)
 

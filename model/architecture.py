@@ -2,12 +2,12 @@ import torch
 from torch import nn
 from torchvision import models
 
-from .layers import Trainable
+from .layers import Trainable, ConvBn2d
 
 
-class ResNext50(nn.Module):
+class COVIDNext50(nn.Module):
     def __init__(self, n_classes):
-        super(ResNext50, self).__init__()
+        super(COVIDNext50, self).__init__()
         self.n_classes = n_classes
         self.trainable = False
 
@@ -30,10 +30,16 @@ class ResNext50(nn.Module):
                                 trainable=self.trainable,
                                 name="block3")
         self.block4 = Trainable(backbone.layer4,
-                                trainable=True,
+                                trainable=self.trainable,
                                 name="block4")
+        self.backbone_end = Trainable(nn.Sequential(
+                                        ConvBn2d(2048, 1024, 3),
+                                        ConvBn2d(1024, 2048, 1),
+                                        ConvBn2d(2048, 1024, 3)),
+                                      name="back",
+                                      trainable=True)
         self.avg_pool = nn.AdaptiveAvgPool2d((1, 1))
-        self.logits = Trainable(nn.Linear(2048, n_classes),
+        self.logits = Trainable(nn.Linear(1024, n_classes),
                                 name="logits",
                                 trainable=True)
 
@@ -42,6 +48,7 @@ class ResNext50(nn.Module):
         for layer in [self.block0, self.block1, self.block2, self.block3,
                       self.block4]:
             net = layer(net)
+        net = self.backbone_end(net)
         net = self.avg_pool(net)
         net = torch.squeeze(net)
         return self.logits(net)

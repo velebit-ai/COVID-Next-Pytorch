@@ -24,3 +24,23 @@ class Trainable(nn.Module):
         """
         for p in self.parameters():
             p.requires_grad = trainable
+
+
+def ConvBn2d(in_dim, out_dim, kernel_size,
+             activation=nn.LeakyReLU(0.1, inplace=True)):
+    """
+    Wraps Conv2D, Batch Normalization 2D, and an arbitrary activation layers
+     with a nn.Sequential layer.
+
+    :param in_dim: int, Input feature map dimension
+    :param out_dim: int, Output feature map dimension
+    :param kernel_size: int or tuple, Convolution kernel size
+    :return: nn.Sequential structure containing above listed network layers
+    """
+    padding = kernel_size // 2
+    net = nn.Sequential(
+        nn.Conv2d(in_dim, out_dim, kernel_size=kernel_size,
+                  padding=padding, bias=False),
+        nn.BatchNorm2d(out_dim),
+        activation)
+    return net
