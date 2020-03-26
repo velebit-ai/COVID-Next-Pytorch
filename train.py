@@ -8,7 +8,7 @@ from torch.optim import Adam
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.nn import CrossEntropyLoss
 
-from data.dataset import COVIDxNumpy
+from data.dataset import COVIDxFolder
 from data import transforms
 from torch.utils.data import DataLoader
 from model import architecture
@@ -91,8 +91,9 @@ def main():
     use_gpu = config.gpu
 
     log.info("Loading train dataset")
-    train_dataset = COVIDxNumpy(config.train_x, config.train_y,
-                                transforms.train_transforms())
+    train_dataset = COVIDxFolder(config.train_imgs, config.train_labels,
+                                 transforms.train_transforms(config.width,
+                                                             config.height))
     train_loader = DataLoader(train_dataset,
                               batch_size=config.batch_size,
                               shuffle=True,
@@ -102,8 +103,9 @@ def main():
     log.info("Number of training examples {}".format(len(train_dataset)))
 
     log.info("Loading val dataset")
-    val_dataset = COVIDxNumpy(config.val_x, config.val_y,
-                              transforms.val_transforms())
+    val_dataset = COVIDxFolder(config.val_imgs, config.val_labels,
+                               transforms.val_transforms(config.width,
+                                                         config.height))
     val_loader = DataLoader(val_dataset,
                             batch_size=config.batch_size,
                             shuffle=False,
@@ -118,7 +120,7 @@ def main():
         state = None
 
     state_dict = state["state_dict"] if state else None
-    model = architecture.SqueezeNet(n_classes=config.n_classes)
+    model = architecture.COVIDNext50(n_classes=config.n_classes)
     if state_dict:
         model = util.load_model_weights(model=model, state_dict=state_dict)
 
@@ -163,10 +165,13 @@ def main():
                 preds = torch.argmax(probs, dim=1).detach().cpu().numpy()
                 labels = labels.cpu().detach().numpy()
                 acc, f1, _, _ = util.clf_metrics(preds, labels)
+                lr = util.get_learning_rate(optimizer)
 
                 log.info("Step {} | TRAINING batch: Loss {:.4f} | F1 {:.4f} | "
-                         "Accuracy {:.4f}".format(global_step, loss.item(),
-                                                  f1, acc))
+                         "Accuracy {:.4f} | LR {:.2e}".format(global_step,
+                                                              loss.item(),
+                                                              f1, acc,
+                                                              lr))
 
             if global_step % config.eval_steps == 0 and global_step > 0:
                 best_score = validate(val_loader,
