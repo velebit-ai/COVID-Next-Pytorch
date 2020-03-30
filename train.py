@@ -142,7 +142,9 @@ def main():
     # Load the last global_step from the checkpoint if existing
     global_step = 0 if state is None else state['global_step'] + 1
 
-    loss_fn = CrossEntropyLoss(reduction='mean')
+    class_weights = util.to_device(torch.FloatTensor(config.loss_weights),
+                                   gpu=use_gpu)
+    loss_fn = CrossEntropyLoss(reduction='mean', weight=class_weights)
 
     # Reset the best metric score
     best_score = -1

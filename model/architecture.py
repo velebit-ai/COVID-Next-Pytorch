@@ -9,7 +9,7 @@ class COVIDNext50(nn.Module):
     def __init__(self, n_classes):
         super(COVIDNext50, self).__init__()
         self.n_classes = n_classes
-        trainable = False
+        trainable = True
 
         # Layers
         backbone = models.resnext50_32x4d(pretrained=True)
@@ -33,13 +33,13 @@ class COVIDNext50(nn.Module):
                                 trainable=trainable,
                                 name="block4")
         self.backbone_end = Trainable(nn.Sequential(
-                                        ConvBn2d(2048, 1024, 3),
-                                        ConvBn2d(1024, 2048, 1),
-                                        ConvBn2d(2048, 1024, 3)),
+                                        ConvBn2d(2048, 512, 3),
+                                        ConvBn2d(512, 1024, 1),
+                                        ConvBn2d(1024, 512, 3)),
                                       name="back",
                                       trainable=True)
         self.avg_pool = nn.AdaptiveAvgPool2d((1, 1))
-        self.logits = Trainable(nn.Linear(1024, n_classes),
+        self.logits = Trainable(nn.Linear(512, n_classes),
                                 name="logits",
                                 trainable=True)
 

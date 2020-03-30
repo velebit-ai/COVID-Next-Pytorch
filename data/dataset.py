@@ -4,15 +4,11 @@ from torch.utils.data import Dataset
 import torch
 from PIL import Image
 
+from config import mapping
+
 
 class COVIDxFolder(Dataset):
     def __init__(self, img_dir, labels_file, transforms):
-        self.mapping = {
-            'normal': 0,
-            'bacteria': 1,
-            'viral': 2,
-            'COVID-19': 3
-        }
         self.img_pths, self.labels = self._prepare_data(img_dir, labels_file)
         self.transforms = transforms
 
@@ -26,7 +22,7 @@ class COVIDxFolder(Dataset):
             img_name = data[1]
             img_pth = os.path.join(img_dir, img_name)
             img_pths.append(img_pth)
-            labels.append(self.mapping[data[2]])
+            labels.append(mapping[data[2]])
 
         return img_pths, labels
 
