@@ -61,6 +61,7 @@ The example demonstrates how to load the model and use it to predict the disease
 - [x] Pretrained model
 - [x] Minimal prediction example
 - [x] Loss weights
+- [ ] Define train, validation, and test data splits for more proper model evaluation.
 - [ ] Automated dataset generation
 - [ ] Tensorboard Logging
 - [ ] Smart sampling
