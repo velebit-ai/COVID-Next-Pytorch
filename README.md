@@ -4,7 +4,7 @@ Inspired by the recent paper [COVID-Net: A Tailored Deep Convolutional Neural Ne
 
 COVID-Next features an architecture that builds upon the famous ResNext50 architecture, which has around **5x** less parameters than the original COVID-Net, and achieves comparable performance.
 
-Tensorflow and Pytorch are two major deep learning frameworks and our motivation was to give the Pytorch research community the same starting ground Tensorflow already has when it comes to AI COVID-19 research. As the authors from the paper have already mentioned, this **model still doesn't offer production ready performance**. The key issue that needs to be resolved is the number of COVID-19 images as the number of such images is currently not diverse and large enough to provide representative predictions results we could expect in the production system.
+Tensorflow and Pytorch are two major deep learning frameworks and our motivation was to give the Pytorch research community the same starting ground Tensorflow already has when it comes to AI COVID-19 research. As the authors from the paper have already mentioned, this **model still doesn't offer production ready performance**. The key issue that needs to be resolved is the number of COVID-19 images as the number of such images is currently **not diverse and large enough** to provide representative prediction results end-users could expect in the production system.
 
 ## Requirements
 
