@@ -1,4 +1,4 @@
-# COVID-Next ---> Pytorch upgrade of the COVID-Net
+# COVID-Next &rarr; Pytorch upgrade of the COVID-Net
 
 Inspired by the recent paper [COVID-Net: A Tailored Deep Convolutional Neural Network Design forDetection of COVID-19 Cases from Chest Radiography Images](https://arxiv.org/pdf/2003.09871.pdf) and its Tensorflow [implementation](https://github.com/lindawangg/COVID-Net), we are now open sourcing the upgraded Pytorch version called COVID-Next.
 
