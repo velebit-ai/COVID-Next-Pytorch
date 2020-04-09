@@ -1,6 +1,6 @@
 # COVID-Next &rarr; Pytorch upgrade of the COVID-Net
 
-Inspired by the recent paper [COVID-Net: A Tailored Deep Convolutional Neural Network Design forDetection of COVID-19 Cases from Chest Radiography Images](https://arxiv.org/pdf/2003.09871.pdf) and its Tensorflow [implementation](https://github.com/lindawangg/COVID-Net), we are now open sourcing the upgraded Pytorch version called COVID-Next.
+Inspired by the recent paper [COVID-Net: A Tailored Deep Convolutional Neural Network Design for Detection of COVID-19 Cases from Chest Radiography Images](https://arxiv.org/pdf/2003.09871.pdf) and its Tensorflow [implementation](https://github.com/lindawangg/COVID-Net), we are now open sourcing the upgraded Pytorch version called COVID-Next.
 
 COVID-Next features an architecture that builds upon the famous ResNext50 architecture, which has around **5x** less parameters than the original COVID-Net, and achieves comparable performance.
 
@@ -23,28 +23,27 @@ Training configuration is currently modified through the `config.py` module. Che
 
 `python3 train.py` command will run model training.
 
+### Dataset
+
+We have created a script that automates the dataset generation from the two sources referenced in the original repo. To generate the dataset, follow these steps:
+
+1. Download the datasets listed below:
+    * COVID ChestXray [dataset](https://github.com/ieee8023/covid-chestxray-dataset.git). Be aware this repository is constantly adding new images.
+    * Kaggle RSNA pneumonia [dataset](https://www.kaggle.com/c/rsna-pneumonia-detection-challenge/data)
+2. Run the `generate_dataset.py` script. Run `python3 generate_dataset.py -h` to see supported arguments.
+
+The script will create a new folder with `train` and `test` subfolders where images are located, along with the two metadata files for both train and test subsets.
+
+
 ### Note
 
 IO will probably be a bottleneck during training because most of the images are large and a lot of time is wasted on loading images into memory. To avoid this issue, we suggest downscaling images beforehand to input size used by the model.
 
 You can also try to increase the `config.n_threads` to alleviate this issue but beware that increasing the number of threads will result in increased memory usage.
 
-### Dataset
+## Results
 
-We have generated the training/test dataset by following the instructions from the original repo. **Be aware this dataset was generated on March 30 2020 and could be deprecated by now**. You can find the statistics for this version of the dataset below.
-Please refer the [original repo](https://github.com/lindawangg/COVID-Net) for the newest version of the dataset. Automating the dataset generation process will be one of our future tasks for this repo.
-
-----
-
-Chest radiography images distribution (as of March 30 2020)
-|  Type | Normal | Pneumonia | COVID-19 | Total |
-|:-----:|:------:|:--------:|:---------:|:-----:|
-| train |  7966  |   8514   |      66   | 16546   |
-| test  |   100  |    100   |      10   |  210    |
-
-## Evaluating
-
-Results of the COVID-Next model on the test dataset (as of March 30 2020).
+The following results were obtained on the dataset used in the original repo as of March 20 2020.
 |                   | Accuracy | F1 Macro | Precision Macro | Recall Macro |
 |:-----------------:|:--------:|:--------:|:---------------:|:--------------:|
 | COVID-Net (Large) | 91.90%   | 91.39%   | 91.4%           | 91.33%       |
@@ -57,11 +56,11 @@ The example demonstrates how to load the model and use it to predict the disease
 
 ## Upgrades
 
-- [x] Training image augmentations
-- [x] Pretrained model
-- [x] Minimal prediction example
-- [x] Loss weights
-- [ ] Define train, validation, and test data splits for more proper model evaluation.
-- [ ] Automated dataset generation
-- [ ] Tensorboard Logging
-- [ ] Smart sampling
+* [x] Training image augmentations
+* [x] Pretrained model
+* [x] Minimal prediction example
+* [x] Loss weights
+* [x] Automated dataset generation
+* [ ] Define train, validation, and test data splits for more proper model evaluation.
+* [ ] Tensorboard Logging
+* [ ] Smart sampling
