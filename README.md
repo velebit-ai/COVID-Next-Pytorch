@@ -27,7 +27,7 @@ Training configuration is currently modified through the `config.py` module. Che
 
 We have created a script that automates the dataset generation from the two sources referenced in the original repo. To generate the dataset, follow these steps:
 
-1. Download the datasets listed above
+1. Download the datasets listed below:
     * COVID ChestXray [dataset](https://github.com/ieee8023/covid-chestxray-dataset.git). Be aware this repository is constantly adding new images.
     * Kaggle RSNA pneumonia [dataset](https://www.kaggle.com/c/rsna-pneumonia-detection-challenge/data)
 2. Run the `generate_dataset.py` script. Run `python3 generate_dataset.py -h` to see supported arguments.
